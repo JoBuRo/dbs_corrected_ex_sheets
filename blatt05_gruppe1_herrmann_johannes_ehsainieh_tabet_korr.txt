@@ -1,0 +1,54 @@
+-- Aufgabe 1
+SELECT pname AS ProvinzName
+FROM provinz
+WHERE pname LIKE 'Ba%';
+
+-- Aufgabe 2
+SELECT DISTINCT lname AS LandName
+FROM stadt NATURAL JOIN land
+WHERE einwohner >= 300;
+
+-- Aufgabe 3
+SELECT lname AS LandName, hstadt AS LandHauptstadt, prozent AS LageProzent
+FROM lage NATURAL JOIN land NATURAL JOIN mitglied
+WHERE kontinent = 'Asia' AND prozent > 50 AND organisation = 'UN';
+
+-- Aufgabe 4
+SELECT lname AS LandName, l1.kontinent AS Kontinent1, l2.kontinent as Kontinent2
+FROM land, lage l1, lage l2
+WHERE l1.lcode = l2.lcode AND l2.lcode = land.lcode AND l1.kontinent < l2.kontinent;
+
+-- Aufgabe 5
+SELECT lname AS LandName, sname AS StadtName, bgrad AS StadtBreitengrad
+FROM stadt NATURAL JOIN land
+ORDER BY lname ASC, bgrad DESC;
+
+-- Aufgabe 6
+SELECT l1.lcode AS LandCode1, l2.lcode AS LandCode2, 
+l1.kontinent AS Kontinent1, l2.kontinent AS Kontinent2
+FROM lage l1, lage l2
+WHERE l1.prozent < 100 AND l2.prozent < 100 
+AND l1.lcode < l2.lcode AND l1.kontinent = l2.kontinent;
+
+-- Aufgabe 7
+SELECT s1.sname AS StadtName1, s2.sname AS StadtName2, sqrt(power((100 * (s1.lgrad - s2.lgrad)), 2) + power((100 * (s1.bgrad - s2.bgrad)), 2)) AS Entfernung
+FROM stadt s1, stadt s2
+WHERE s1.sname < s2.sname;
+
+-- =================
+-- Aufgabe  Punkte
+-- 1.       1/1
+-- 2.       1/1
+-- 3.       2.5/3   "m.art = 'member'" fehlt.
+-- 4.       3/3
+-- 5.       2/2
+-- 6.       1/4    *
+-- 7.       3/3
+-- 8.       3/3
+-- -----------------
+-- Gesamt:  16.5/20 
+-- -----------------
+-- * Aufgabe 6: Ergebnis: RU, TR, Asia, Europe
+-- Es wird in der FROM Zeile vier mal "Lage" benötigt.
+-- =================
+
